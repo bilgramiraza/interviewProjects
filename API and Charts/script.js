@@ -9,14 +9,22 @@ function setup() {
 
 async function memoryData() {
   const data = await getMemoryData();
-  const cleanedData = formatMemoryData(data.data);
-  console.log(cleanedData);
-  displayMemoryData(cleanedData);
+  if(data){
+    const cleanedData = formatMemoryData(data.data);
+    console.log(cleanedData);
+    displayMemoryData(cleanedData);
+  }
 }
 async function getMemoryData() {
-  const response = await fetch('http://216.48.189.38:9090/api/v1/query_range?query=container_memory_working_set_bytes%7Bnamespace=%22sathiyapk%22,container=%22POD%22%7D&start=1654856265&end=1654942666&step=9000');
-  const data = await response.json();
-  return data;
+  try {
+    const response = await fetch('http://216.48.189.38:9090/api/v1/query_range?query=container_memory_working_set_bytes%7Bnamespace=%22sathiyapk%22,container=%22POD%22%7D&start=1654856265&end=1654942666&step=9000');
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    const errorText = document.querySelector('#error');
+    console.log(error)
+    errorText.textContent = 'Unable to get Data';
+  }
 }
 function formatMemoryData(data) {
   let result = [];
@@ -65,14 +73,22 @@ function displayMemoryData(data) {
 
 async function uptimeData() {
   const data = await getUptimeData();
-  const cleanedData = formatUptimeData(data.data);  
-  console.log(cleanedData);
-  displayUptimeData(cleanedData);
+  if(data){
+    const cleanedData = formatUptimeData(data.data);  
+    console.log(cleanedData);
+    displayUptimeData(cleanedData);
+  }
 }
 async function getUptimeData() {
-  const response = await fetch('http://216.48.189.38:9090/api/v1/query?query=container_cpu_usage_seconds_total{namespace=%22sathiyapk%22,container=%22POD%22}');
-  const data = await response.json();
-  return data;
+  try {
+    const response = await fetch('http://216.48.189.38:9090/api/v1/query?query=container_cpu_usage_seconds_total{namespace=%22sathiyapk%22,container=%22POD%22}');
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    const errorText = document.querySelector('#error');
+    console.log(error);
+    errorText.textContent = 'Unable to get Data';
+  }
 }
 function formatUptimeData(data) {
   let result = [];
