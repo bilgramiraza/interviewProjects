@@ -57,6 +57,9 @@ function displayMemoryData(data) {
       categories: [],
     },
     series: [],
+    credits: {
+      enabled: false
+    },
   };
   for (item of data) {
     if (!options.xAxis.categories.length) {
@@ -133,6 +136,9 @@ function displayUptimeData(data) {
       colorByPoint: true,
       data:[]
     }],
+    credits: {
+      enabled: false
+    },
   };
   for (item of data) {
     options.series[0].data.push({
